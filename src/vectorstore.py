@@ -4,6 +4,7 @@ import numpy as np
 import pickle
 from typing import List, Any
 from src.embedding import EmbeddingPipeline
+from src.data_loader import load_all_documents
 
 class FaissVectorStore:
     def __init__(self, persist_dir="faiss_store", embedding_model=None, chunk_size=1500, chunk_overlap=300):
@@ -17,6 +18,15 @@ class FaissVectorStore:
         self.faiss_path = os.path.join(self.persist_dir, "faiss.index")
         self.meta_path = os.path.join(self.persist_dir, "metadata.pkl")
 
+    def get_or_build_vectorstore(self, data_dir="data/text_files"):
+        """Load FAISS if exists; else build from data_dir"""
+        if self.load():
+            self.update_from_new_documents(data_dir)
+        else:
+            documents = load_all_documents(data_dir)
+            self.build_from_documents(documents)
+        return self
+
     def build_from_documents(self, documents: List[Any]):
         emb_pipe = EmbeddingPipeline(chunk_size=self.chunk_size, chunk_overlap=self.chunk_overlap)
         emb_pipe.model = self.embedding_model
@@ -25,7 +35,7 @@ class FaissVectorStore:
         embeddings = emb_pipe.embed_chunks(chunks)
 
         dim = embeddings.shape[1]
-        self.index = faiss.IndexFlatL2(dim) # Reliable for small datasets
+        self.index = faiss.IndexFlatL2(dim)  # Suitable for small datasets
         self.index.add(embeddings.astype("float32"))
 
         self.metadata = [{"text": chunk.page_content} for chunk in chunks]
@@ -53,8 +63,7 @@ class FaissVectorStore:
                 results.append({"metadata": self.metadata[idx], "distance": float(dist)})
         return results
 
-    def update_from_new_documents(self, data_dir: str = "data"):
-        from src.data_loader import load_all_documents
+    def update_from_new_documents(self, data_dir: str = "data/text_files"):
         all_docs = load_all_documents(data_dir)
         existing_texts = set(m['text'] for m in self.metadata)
         new_docs = [doc for doc in all_docs if doc.page_content not in existing_texts]
