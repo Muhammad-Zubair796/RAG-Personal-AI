@@ -1,16 +1,13 @@
 ### backend.py ###
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
-from src.search import RAGSearch
 
 # Initialize Flask app
 app = Flask(__name__, template_folder='templates')
 CORS(app)  # Enable cross-origin requests
 
-# Initialize RAG system
-print("[INFO] Initializing RAG system. This may take a few seconds...")
-rag = RAGSearch()
-print("[INFO] RAG system ready.")
+# RAG system will be initialized lazily
+rag = None
 
 # Section-wise static data for frontend cards
 sections_data = {
@@ -54,15 +51,23 @@ def home():
 # Query endpoint
 @app.route('/query', methods=['POST'])
 def query():
+    global rag
     data = request.get_json()
     query_text = data.get('query', '').strip()
     if not query_text:
         return jsonify({"answer": "Please provide a query."})
 
     try:
+        # Lazy initialization
+        if rag is None:
+            print("[INFO] Initializing RAG system...")
+            from src.search import RAGSearch
+            rag = RAGSearch()
+            print("[INFO] RAG system ready.")
+
         answer = rag.search_and_summarize(query_text, top_k=5)
         if not isinstance(answer, str):
-            answer = str(answer)  # Ensure JSON serializable
+            answer = str(answer)
     except Exception as e:
         print(f"[ERROR] RAG query failed: {e}")
         answer = "Error: Could not process the query."
@@ -79,5 +84,4 @@ if __name__ == '__main__':
     import os
     port = int(os.environ.get("PORT", 5000))
     print(f"[INFO] Starting Flask server on port {port} ...")
-    app.run(host='0.0.0.0', port=port, debug=True)
-
+    app.run(host='0.0.0.0', port=port)
