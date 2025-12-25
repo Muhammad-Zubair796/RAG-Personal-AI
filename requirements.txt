@@ -8,6 +8,6 @@ faiss-cpu
 chromadb
 langchain-groq
 python-dotenv
-flask==2.3.4
-flask-cors==3.1.1
+flask
+
 
