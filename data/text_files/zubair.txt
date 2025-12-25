@@ -1,0 +1,48 @@
+# MUHAMMAD ZUBAIR - FULL PROFESSIONAL PROFILE (2025)
+
+## CORE IDENTITY & CONTACT
+- Name: Muhammad Zubair
+- Role: AI & Full-Stack Developer | MLOps Engineer | SEO Strategist | Game Developer
+- Location: Islamabad, Pakistan
+- Contact: 03401071629
+- LinkedIn: https://www.linkedin.com/in/muhammad-zubair-6230a1285/
+- GitHub: https://github.com/Muhammad-Zubair796
+
+## SUMMARY OF EXPERTISE
+Muhammad Zubair is a multidisciplinary expert with over 6 years of freelance experience (Upwork/Fiverr) and 50+ successful projects. He is a Level 1 Seller on Fiverr. His expertise spans Machine Learning, RAG (Retrieval-Augmented Generation), MLOps, Full-Stack Web/Mobile applications, and Unity Game Design. He also has 7+ years of academic teaching experience.
+
+## DETAILED TECHNICAL SKILLS MATRIX
+
+### SOFTWARE ENGINEERING & LANGUAGES
+- Programming Languages: Python (Expert), JavaScript, C# (Unity), HTML5, CSS3, SQL.
+- Web Frameworks: React, Next.js, Node.js, FastAPI, Flask.
+- DevOps & Cloud: MLOps, CI/CD Pipelines, Git/GitHub, Azure Cloud Computing.
+
+### ARTIFICIAL INTELLIGENCE & DATA SCIENCE
+- AI & LLM Tools: RAG (Retrieval-Augmented Generation), LangChain, DialogueFlow, Prompt Engineering, Transformers.
+- Neural Networks: ANN, RNN, CNN, NLP (Natural Language Processing).
+- Computer Vision: YOLO Object Detection, OpenCV.
+- Data Science: Data Cleaning, Data Wrangling, ETL Processes.
+- Business Intelligence: Power BI (Expert), Data Visualization, MySQL, Advanced Excel.
+
+### GAME DEVELOPMENT & ANIMATION
+- Engines: Unity (Expert), Pure JavaScript Animation.
+- Design: 2D/3D Animation, Motion Graphics, Logo Animation, Video Editing.
+- Tools: After Effects, Photoshop, Canva.
+
+### DIGITAL MARKETING & SEO STRATEGY
+- SEO/SEM: Search Engine Optimization, Google Ads, Meta Ads.
+- Strategy: ROI-focused campaign optimization, local SEO, Market & Competitor Intel.
+- Platforms: WordPress, WooCommerce.
+
+## PORTFOLIO & WORK SAMPLES
+- Graphic Design: https://drive.google.com/drive/folders/1UVCvWEchCzmJy1oW_6hT_IpsZzF3vLab
+- Motion Graphics & Animation: https://drive.google.com/drive/folders/1qZsaSGlFWOGC-yR8C9KVcZcOyrQRUmmh
+- PDF Catalogs: https://drive.google.com/drive/folders/1vNdPV4O_ImHFSX8EZvC6MQ4fsfFMH3Mh
+- 2D Animation: https://drive.google.com/drive/folders/15xli7hm2Nb7cXkRhrsyWFpdcHAAy4DI7?usp=drive_link
+
+## KEY PROJECTS & ACHIEVEMENTS
+- AI ATS System: A system for CV-job matching using NLP.
+- Gaming: Built 4 interactive Unity-based games and custom JS games.
+- Freelance: Level 1 Seller on Fiverr with 50+ Five-Star Reviews.
+- SEO: Managed organic health and ranking for multiple international brands.

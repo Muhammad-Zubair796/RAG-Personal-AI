@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muhammad Zubair Portfolio Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    height: 100vh;
+    background-color: #f0f2f5;
+    overflow: hidden;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    width: 240px;
+    background-color: #1f1f2f;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 10px;
+    flex-shrink: 0;
+    overflow-y: auto;
+  }
+  .profile-container { text-align: center; margin-bottom: 15px; }
+  .profile-pic { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; margin-bottom: 10px; }
+  .sidebar h2 { text-align: center; margin-bottom: 15px; font-size: 18px; color: #1e90ff; }
+  
+  .section { padding: 10px 15px; margin-bottom: 5px; cursor: pointer; border-radius: 8px; transition: 0.2s; font-size: 14px; }
+  .section:hover { background-color: #33334d; color: #1e90ff; }
+
+  /* Video Panel at Bottom */
+  .sidebar-video-group {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .sidebar-video-item { width: 100%; border-radius: 8px; overflow: hidden; background: #000; border: 1px solid rgba(255,255,255,0.1); }
+  .sidebar-video-item video { width: 100%; display: block; }
+  .video-label { font-size: 10px; text-align: center; padding: 4px; color: #aaa; background: rgba(0,0,0,0.3); }
+
+  /* Main Content */
+  .main { flex: 1; display: flex; flex-direction: column; padding: 20px; overflow: hidden; }
+
+  /* Gallery */
+  .gallery-viewport {
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+    background: #000;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+  .gallery-track {
+    display: flex;
+    width: calc(250px * 30); 
+    animation: scroll 45s linear infinite;
+  }
+  .gallery-track:hover { animation-play-state: paused; }
+  .gallery-item { width: 250px; height: 160px; flex-shrink: 0; padding: 5px; }
+  .gallery-item img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; transition: 0.3s; }
+  .gallery-item:hover img { transform: scale(1.1); }
+
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-250px * 15)); }
+  }
+
+  /* Cards and Chat */
+  .cards-container {
+    flex: 0.4;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+    overflow-y: auto;
+    padding-bottom: 10px;
+  }
+  .card { background-color: #fff; border-radius: 10px; padding: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-left: 4px solid #1e90ff; transition: 0.3s; }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  .card p { margin: 0; color: #333; font-size: 13px; font-weight: 500; }
+
+  .chat-container {
+    flex: 0.6;
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 15px;
+    overflow-y: auto;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .chat-message p { padding: 8px 12px; border-radius: 12px; margin: 5px 0; max-width: 85%; }
+  .chat-message.user { align-self: flex-end; }
+  .chat-message.bot { align-self: flex-start; }
+  .chat-message.user p { background-color: #1e90ff; color: #fff; }
+  .chat-message.bot p { background-color: #f1f0f0; color: #333; }
+
+  .input-container { display: flex; margin-top: 10px; }
+  .input-container input { flex: 1; padding: 12px; border-radius: 8px; border: 1px solid #ddd; outline: none; }
+  .input-container button { padding: 10px 20px; margin-left: 10px; border-radius: 8px; border: none; background-color: #1e90ff; color: #fff; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="profile-container">
+    <img src="{{ url_for('static', filename='profile.png') }}" class="profile-pic">
+    <h2>Muhammad Zubair</h2>
+  </div>
+
+  <div class="section" onclick="loadSection('ML/AI')">ML / AI / RAG</div>
+  <div class="section" onclick="loadSection('Data Science')">Data Science & Analysis</div>
+  <div class="section" onclick="loadSection('DevOps')">DevOps & MLOps</div>
+  <div class="section" onclick="loadSection('Web/Mobile')">Web & Mobile</div>
+  <div class="section" onclick="loadSection('Games')">Games</div>
+  <div class="section" onclick="loadSection('Graphics')">Graphics & Animation</div>
+  <div class="section" onclick="loadSection('Digital Marketing')">Digital Marketing</div>
+  <div class="section" onclick="loadSection('Projects')">Projects</div>
+  <div class="section" onclick="loadSection('Freelance')">Freelance</div>
+
+  <div class="sidebar-video-group">
+    <div class="sidebar-video-item">
+      <video src="{{ url_for('static', filename='videos/angry Chicken.mp4') }}" autoplay loop muted playsinline></video>
+      <div class="video-label">Angry Chicken</div>
+    </div>
+    <div class="sidebar-video-item">
+      <video src="{{ url_for('static', filename='videos/Bird Greetings.mp4') }}" autoplay loop muted playsinline></video>
+      <div class="video-label">Morning Greetings</div>
+    </div>
+    <div class="sidebar-video-item">
+      <video src="{{ url_for('static', filename='videos/Dog.mp4') }}" autoplay loop muted playsinline></video>
+      <div class="video-label">The Dog</div>
+    </div>
+    <div class="sidebar-video-item">
+      <video src="{{ url_for('static', filename='videos/Girl finds Creature.mp4') }}" autoplay loop muted playsinline></video>
+      <div class="video-label">The Creature</div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="gallery-viewport">
+    <div class="gallery-track">
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/1.jpg') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/2.jpg') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/3.jpg') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/4.jpg') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/5.jpg') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/6.jpg') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/7.jpg') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/12.jpg') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/26.jpg') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/Direct Mail Front.png') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/Flyer-01.jpg') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/instagram ad.jpg') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/mma.jpg') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/New year Card.jpg') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/pclm 4.jpg') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/1.jpg') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/2.jpg') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/3.jpg') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/4.jpg') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/5.jpg') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/6.jpg') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/7.jpg') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/12.jpg') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/26.jpg') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/Direct Mail Front.png') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/Flyer-01.jpg') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/instagram ad.jpg') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/mma.jpg') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/New year Card.jpg') }}"></div>
+      <div class="gallery-item"><img src="{{ url_for('static', filename='apps_pics/pclm 4.jpg') }}"></div>
+    </div>
+  </div>
+
+  <div class="cards-container" id="cardsContainer"></div>
+
+  <div class="chat-container" id="chatContainer">
+    <div class="chat-message bot"><p>Ask me about Zubair's skills in AI, DevOps, or Data Science!</p></div>
+  </div>
+
+  <div class="input-container">
+    <input type="text" id="userInput" placeholder="Ask me anything..." onkeypress="handleKeyPress(event)">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<script>
+  const sectionsData = {
+    "ML/AI": ["Deep Learning (CNN, RNN)", "RAG", "Langchain", "DialogueFlow", "Computer Vision (YOLO)", "NLP & FastAPI", "Prompt Engineering", "Transformers", "ChatBots", "AI Integration", "ANN"],
+    "Data Science": ["Data Analysis", "Data Science", "Data Cleaning", "Data Wrangling", "ETL Pipelines", "PowerBI Dashboards", "MySQL Database", "Statistical Modeling"],
+    "DevOps": ["MLOps", "DevOps", "Cloud Computing (Azure)", "CI/CD Pipelines", "Git / GitHub"],
+    "Web/Mobile": ["React & Next.js", "Node.js Backend", "Android Studio", "Full Stack Dev"],
+    "Games": ["Unity Development", "Pure JS Animations", "Interactive Web Games"],
+    "Graphics": ["After Effects", "Photoshop", "Canva", "Logo Animation", "Video Editing", "Flyer Design", "Ads Construction", "2D Animation"],
+    "Digital Marketing": ["SEO Strategist", "Google Ads", "Meta Ads", "WordPress", "WooCommerce"],
+    "Projects": ["AI ATS System", "Object Detection", "Chrome Extensions", "Unity Games", "Windows Desktop Apps"],
+    "Freelance": ["Upwork Profile", "Fiverr Level 1 Seller", "50+ Five-Star Reviews"]
+  };
+
+  function loadSection(section) {
+    const container = document.getElementById('cardsContainer');
+    container.innerHTML = `<h3 style="grid-column: 1/-1; margin:0; color:#1f1f2f; font-size: 16px;">${section} Skills</h3>`;
+    (sectionsData[section] || []).forEach(text => {
+      container.innerHTML += `<div class="card"><p>${text}</p></div>`;
+    });
+  }
+
+  async function sendMessage() {
+    const input = document.getElementById('userInput');
+    const query = input.value.trim();
+    if (!query) return;
+    appendMessage('user', query);
+    input.value = '';
+    const response = await fetch('/query', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: query })
+    });
+    const data = await response.json();
+    appendMessage('bot', data.answer);
+  }
+
+  function appendMessage(sender, text) {
+    const container = document.getElementById('chatContainer');
+    const msgDiv = document.createElement('div');
+    msgDiv.className = `chat-message ${sender}`;
+    const p = document.createElement('p');
+    msgDiv.appendChild(p);
+    container.appendChild(msgDiv);
+
+    if (sender === 'user') {
+      p.textContent = text;
+    } else {
+      let i = 0;
+      function type() {
+        if (i < text.length) {
+          p.textContent += text.charAt(i);
+          i++;
+          container.scrollTop = container.scrollHeight;
+          setTimeout(type, 15);
+        } else {
+          // After typing finishes, convert the text into clean Markdown/HTML
+          p.innerHTML = marked.parse(text);
+        }
+      }
+      type();
+    }
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
+  window.onload = () => loadSection('ML/AI');
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Vector databases / embeddings
+vector_store/
+faiss_store/
+*.bin
+*.index
+*.pkl
+*.sqlite3
+*.faiss
+
+# Media files (served via Cloudinary)
+static/videos/
+static/apps_pics/
+
+
+# Notebooks checkpoints
+.ipynb_checkpoints/
+
+# Lock files
+uv.lock
